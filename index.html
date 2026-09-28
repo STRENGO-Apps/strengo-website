@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Strengo — trening siłowy pod kontrolą</title>
+<meta name="description" content="Strengo — aplikacja na Androida do planowania i śledzenia treningów: kettlebell, masa ciała, sprzęt na siłowni i własne ćwiczenia w jednym miejscu.">
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<style>
+  :root {
+    --bg: #16171b;
+    --surface: #1f2126;
+    --surface-raised: #262830;
+    --text-primary: #f5f5f7;
+    --text-secondary: #a3a6ad;
+    --text-muted: #7b7e86;
+    --coral: #ff7a50;
+    --coral-soft: rgba(255, 122, 80, 0.14);
+    --teal: #46c9b3;
+    --border: rgba(255, 255, 255, 0.06);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; }
+
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  header.nav {
+    padding: 28px 0 0;
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .logo-mark {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: var(--coral-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .logo-mark svg { width: 18px; height: 18px; }
+
+  .logo-text {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .hero {
+    padding: 72px 0 32px;
+    text-align: center;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 7px 14px;
+    border-radius: 100px;
+    margin-bottom: 28px;
+  }
+
+  .badge .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--coral);
+  }
+
+  h1 {
+    font-size: 44px;
+    line-height: 1.12;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin: 0 0 18px;
+  }
+
+  h1 span { color: var(--coral); }
+
+  .subtitle {
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--text-secondary);
+    max-width: 480px;
+    margin: 0 auto 36px;
+  }
+
+  .cta-row {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 26px;
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    border: 1px solid transparent;
+  }
+
+  .btn-primary {
+    background: var(--coral);
+    color: #1a1a1a;
+  }
+
+  .btn-ghost {
+    background: transparent;
+    border-color: var(--border);
+    color: var(--text-secondary);
+  }
+
+  .btn[aria-disabled="true"] {
+    opacity: 0.55;
+    pointer-events: none;
+  }
+
+  .hint {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 14px;
+  }
+
+  section.features {
+    padding: 56px 0 8px;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  .feature-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 22px;
+  }
+
+  .feature-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    background: var(--surface-raised);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+  }
+
+  .feature-icon svg { width: 19px; height: 19px; stroke: var(--coral); }
+  .feature-card:nth-child(2n) .feature-icon svg { stroke: var(--teal); }
+
+  .feature-card h3 {
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0 0 6px;
+  }
+
+  .feature-card p {
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  section.screens {
+    padding: 56px 0 8px;
+  }
+
+  section.screens h2 {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin: 0 0 20px;
+    text-align: center;
+  }
+
+  .screens-scroll {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding: 4px 4px 14px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+
+  .screens-scroll::-webkit-scrollbar { height: 6px; }
+  .screens-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  .screen-item {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    width: 172px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .screen-item img {
+    width: 100%;
+    display: block;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  .screen-caption {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-align: center;
+  }
+
+  section.principles {
+    padding: 56px 0 8px;
+  }
+
+  section.principles h2 {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin: 0 0 24px;
+    text-align: center;
+  }
+
+  .principle {
+    display: flex;
+    gap: 16px;
+    padding: 22px 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .principle:first-of-type { border-top: none; }
+
+  .principle-num {
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    background: var(--coral-soft);
+    color: var(--coral);
+    font-size: 13px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .principle h3 {
+    font-size: 15.5px;
+    font-weight: 700;
+    margin: 0 0 5px;
+  }
+
+  .principle p {
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  section.about {
+    padding: 64px 0;
+  }
+
+  .about-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px;
+  }
+
+  .about-card h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 0 12px;
+  }
+
+  .about-card p {
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--text-secondary);
+    margin: 0 0 12px;
+  }
+
+  .about-card p:last-child { margin-bottom: 0; }
+
+  footer {
+    padding: 40px 0 56px;
+    border-top: 1px solid var(--border);
+    margin-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  footer a {
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+
+  footer a:hover { color: var(--text-secondary); }
+
+  @media (max-width: 560px) {
+    .hero { padding-top: 52px; }
+    h1 { font-size: 32px; }
+    .subtitle { font-size: 16px; }
+    .features-grid { grid-template-columns: 1fr; }
+    .about-card { padding: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <div class="logo-mark">
+      <svg viewBox="0 0 100 100" fill="none" stroke="#ff7a50" stroke-width="9" stroke-linecap="round" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20 76V62"/>
+        <path d="M35 76V56.2"/>
+        <path d="M50 76V48"/>
+        <path d="M65 76V36.4"/>
+        <path d="M80 76V20"/>
+      </svg>
+    </div>
+    <div class="logo-text">Strengo</div>
+  </div>
+</header>
+
+<main>
+  <section class="hero wrap">
+    <div class="badge"><span class="dot"></span> Wkrótce w Google Play</div>
+    <h1>Twój trening,<br><span>bez zbędnego bałaganu.</span></h1>
+    <p class="subtitle">Strengo to aplikacja na Androida do budowania własnych treningów — kettlebell, masa ciała, sprzęt na siłowni — prowadzenia ich na żywo i śledzenia postępów w jednym miejscu.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#" aria-disabled="true">Pobierz na Google Play</a>
+      <a class="btn btn-ghost" href="mailto:feedback@strengo.app">Napisz do nas</a>
+    </div>
+    <p class="hint">Aplikacja jest w fazie testów — link do sklepu pojawi się tutaj wkrótce.</p>
+  </section>
+
+  <section class="features wrap">
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 6h16M4 12h16M4 18h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Buduj własne treningi</h3>
+        <p>Dowolna liczba ćwiczeń, serii, rund i przerw — dopasowane do Ciebie, nie do szablonu.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3" y="4" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="2"/>
+            <rect x="14" y="4" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="2"/>
+            <rect x="3" y="15" width="7" height="5" rx="1.5" stroke="currentColor" stroke-width="2"/>
+            <path d="M17.5 15v5M15 17.5h5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Nie tylko kettlebell</h3>
+        <p>Katalog obejmuje też ćwiczenia z masą własnego ciała i na wieży, a czego brakuje — dodajesz sam.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/>
+            <path d="M12 7v5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Tryb live z timerem</h3>
+        <p>Aplikacja prowadzi Cię krok po kroku przez cały trening — bez liczenia w głowie.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 19V9M12 19V5M20 19v-7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Objętość i kalorie</h3>
+        <p>Automatyczne przeliczenia po każdej sesji, bez ręcznego liczenia kilogramów.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4" y="4" width="16" height="16" rx="3" stroke="currentColor" stroke-width="2"/>
+            <path d="M8 2v4M16 2v4M4 10h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Dziennik treningów</h3>
+        <p>Historia wykonanych sesji zostaje zapisana, nawet jeśli później zmienisz szablon treningu.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="screens wrap">
+    <h2>Zobacz Strengo</h2>
+    <div class="screens-scroll">
+      <div class="screen-item">
+        <img src="screenshots/trening.jpg" alt="Ekran główny Strengo z proponowanym treningiem i listą Twoje treningi" loading="lazy">
+        <div class="screen-caption">Trening</div>
+      </div>
+      <div class="screen-item">
+        <img src="screenshots/cwiczenia.jpg" alt="Biblioteka ćwiczeń z filtrami sprzętu i partii ciała" loading="lazy">
+        <div class="screen-caption">Biblioteka ćwiczeń</div>
+      </div>
+      <div class="screen-item">
+        <img src="screenshots/dodaj-cwiczenie.jpg" alt="Dodawanie ćwiczeń do budowanego treningu" loading="lazy">
+        <div class="screen-caption">Budowanie treningu</div>
+      </div>
+      <div class="screen-item">
+        <img src="screenshots/live-seria.jpg" alt="Tryb live w trakcie serii z licznikiem powtórzeń" loading="lazy">
+        <div class="screen-caption">Tryb live</div>
+      </div>
+      <div class="screen-item">
+        <img src="screenshots/live-przerwa.jpg" alt="Odliczanie przerwy między seriami w trybie live" loading="lazy">
+        <div class="screen-caption">Przerwa między seriami</div>
+      </div>
+      <div class="screen-item">
+        <img src="screenshots/szczegoly-cwiczenia.jpg" alt="Szczegóły ćwiczenia z opisem i partiami ciała" loading="lazy">
+        <div class="screen-caption">Szczegóły ćwiczenia</div>
+      </div>
+      <div class="screen-item">
+        <img src="screenshots/dziennik.jpg" alt="Dziennik z historią wykonanych treningów" loading="lazy">
+        <div class="screen-caption">Dziennik</div>
+      </div>
+      <div class="screen-item">
+        <img src="screenshots/profil.jpg" alt="Profil z wagą, wzrostem i ustawieniami przerw" loading="lazy">
+        <div class="screen-caption">Profil</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="principles wrap">
+    <h2>Dlaczego Strengo</h2>
+    <div class="principle">
+      <div class="principle-num">1</div>
+      <div>
+        <h3>Trening prowadzi słuch, nie wzrok</h3>
+        <p>Podczas serii masz zajęte ręce. Tryb live prowadzi Cię sygnałami dźwiękowymi — bez sięgania po telefon między seriami.</p>
+      </div>
+    </div>
+    <div class="principle">
+      <div class="principle-num">2</div>
+      <div>
+        <h3>Obciążenie liczone uczciwie</h3>
+        <p>Ćwiczenia z masą własnego ciała (np. podciąganie z asystą) trafiają do tej samej objętości co kettlebell — nie tylko surowe kilogramy.</p>
+      </div>
+    </div>
+    <div class="principle">
+      <div class="principle-num">3</div>
+      <div>
+        <h3>Dziennik to zapis, nie widok na plan</h3>
+        <p>Wpis w dzienniku to zamrożona kopia dnia treningu. Zmiana szablonu później nie przepisuje historii.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="about wrap">
+    <div class="about-card">
+      <h2>Dla kogo jest Strengo?</h2>
+      <p>Dla osób, które trenują samodzielnie — kettlebell, masą ciała czy na siłowni — i chcą mieć jedno miejsce na plan treningu, licznik serii i historię postępów, bez logowania się do dziesięciu różnych aplikacji.</p>
+      <p>Aplikacja działa offline i nie wymaga konta.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <span>© 2026 Strengo</span>
+  <a href="mailto:feedback@strengo.app">feedback@strengo.app</a>
+</footer>
+
+</body>
+</html>
