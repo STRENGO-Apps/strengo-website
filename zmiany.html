@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Strengo - co nowego</title>
+<meta name="description" content="Strengo - aplikacja na Androida do planowania i śledzenia treningów: kettlebell, masa ciała, sprzęt na siłowni i własne ćwiczenia w jednym miejscu.">
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<style>
+  :root {
+    --bg: #16171b;
+    --surface: #1f2126;
+    --surface-raised: #262830;
+    --text-primary: #f5f5f7;
+    --text-secondary: #a3a6ad;
+    --text-muted: #7b7e86;
+    --coral: #ff7a50;
+    --coral-soft: rgba(255, 122, 80, 0.14);
+    --teal: #46c9b3;
+    --border: rgba(255, 255, 255, 0.06);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; }
+
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  header.nav {
+    padding: 28px 0 0;
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .logo-mark {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: var(--coral-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .logo-mark svg { width: 18px; height: 18px; }
+
+  .logo-text {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .hero {
+    padding: 72px 0 32px;
+    text-align: center;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 7px 14px;
+    border-radius: 100px;
+    margin-bottom: 28px;
+  }
+
+  .badge .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--coral);
+  }
+
+  h1 {
+    font-size: 44px;
+    line-height: 1.12;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin: 0 0 18px;
+  }
+
+  h1 span { color: var(--coral); }
+
+  .subtitle {
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--text-secondary);
+    max-width: 480px;
+    margin: 0 auto 36px;
+  }
+
+  .cta-row {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 26px;
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    border: 1px solid transparent;
+  }
+
+  .btn-primary {
+    background: var(--coral);
+    color: #1a1a1a;
+  }
+
+  .btn-ghost {
+    background: transparent;
+    border-color: var(--border);
+    color: var(--text-secondary);
+  }
+
+  .btn[aria-disabled="true"] {
+    opacity: 0.55;
+    pointer-events: none;
+  }
+
+  .hint {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 14px;
+  }
+
+  section.features {
+    padding: 56px 0 8px;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  .feature-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 22px;
+  }
+
+  .feature-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    background: var(--surface-raised);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+  }
+
+  .feature-icon svg { width: 19px; height: 19px; stroke: var(--coral); }
+  .feature-card:nth-child(2n) .feature-icon svg { stroke: var(--teal); }
+
+  .feature-card h3 {
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0 0 6px;
+  }
+
+  .feature-card p {
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  section.screens {
+    padding: 56px 0 8px;
+  }
+
+  section.screens h2 {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin: 0 0 20px;
+    text-align: center;
+  }
+
+  .screens-scroll {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding: 4px 4px 14px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+
+  .screens-scroll::-webkit-scrollbar { height: 6px; }
+  .screens-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  .screen-item {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    width: 172px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .screen-item img {
+    width: 100%;
+    display: block;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  .screen-caption {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-align: center;
+  }
+
+  section.principles {
+    padding: 56px 0 8px;
+  }
+
+  section.principles h2 {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin: 0 0 24px;
+    text-align: center;
+  }
+
+  .principle {
+    display: flex;
+    gap: 16px;
+    padding: 22px 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .principle:first-of-type { border-top: none; }
+
+  .principle-num {
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    background: var(--coral-soft);
+    color: var(--coral);
+    font-size: 13px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .principle h3 {
+    font-size: 15.5px;
+    font-weight: 700;
+    margin: 0 0 5px;
+  }
+
+  .principle p {
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  section.about {
+    padding: 64px 0;
+  }
+
+  .about-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px;
+  }
+
+  .about-card h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 0 12px;
+  }
+
+  .about-card p {
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--text-secondary);
+    margin: 0 0 12px;
+  }
+
+  .about-card p:last-child { margin-bottom: 0; }
+
+  footer {
+    padding: 40px 0 56px;
+    border-top: 1px solid var(--border);
+    margin-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  footer a {
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+
+  footer a:hover { color: var(--text-secondary); }
+
+  @media (max-width: 560px) {
+    .hero { padding-top: 52px; }
+    h1 { font-size: 32px; }
+    .subtitle { font-size: 16px; }
+    .features-grid { grid-template-columns: 1fr; }
+    .about-card { padding: 24px; }
+  }
+
+  .log { padding-top: 56px; padding-bottom: 72px; max-width: 760px; }
+  .log h1 { font-size: clamp(32px, 6vw, 48px); margin: 0 0 12px; }
+  .log .lead { color: var(--text-secondary); margin: 0 0 40px; line-height: 1.6; }
+  .rel { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 22px 24px; margin-bottom: 16px; }
+  .rel-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+  .rel-head h2 { font-size: 20px; margin: 0; }
+  .rel-head time { color: var(--text-muted); font-size: 14px; }
+  .rel h3 { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--coral); margin: 14px 0 6px; }
+  .rel h3.fix { color: var(--teal); }
+  .rel h3.chg { color: var(--text-muted); }
+  .rel ul { margin: 0; padding-left: 18px; color: var(--text-secondary); line-height: 1.6; }
+  .rel li { margin: 3px 0; }
+  .rel li b { color: var(--text-primary); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a href="/" class="logo-link" style="display:flex;align-items:center;gap:10px;color:inherit;text-decoration:none"><div class="logo-mark">
+      <svg viewBox="0 0 100 100" fill="none" stroke="#ff7a50" stroke-width="9" stroke-linecap="round" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20 76V62"/>
+        <path d="M35 76V56.2"/>
+        <path d="M50 76V48"/>
+        <path d="M65 76V36.4"/>
+        <path d="M80 76V20"/>
+      </svg>
+    </div>
+    <div class="logo-text">Strengo</div></a>
+  </div>
+</header>
+
+<main class="wrap log">
+  <h1>Co nowego</h1>
+  <p class="lead">Zmiany w kolejnych wersjach Strengo. Aplikacja jest w fazie testów wewnętrznych w Google Play - aktualizacje przychodzą same.</p>
+    <article class="rel" id="v0.12.1">
+      <div class="rel-head"><h2>0.12.1</h2><time>21 października 2026</time></div>
+      <h3>Nowe</h3>
+      <ul>
+        <li><b>Wiosłowanie balistyczne</b> (ballistic row) w katalogu ćwiczeń</li>
+      </ul>
+      <h3 class="chg">Zmiany</h3>
+      <ul>
+        <li>Piktogram ruchu także na przerwie i w odliczaniu - widać, do czego się szykować</li>
+        <li>Mapa ciepła w statystykach przewija się w poziomie i startuje od dzisiaj</li>
+      </ul>
+    </article>
+    <article class="rel" id="v0.12.0">
+      <div class="rel-head"><h2>0.12.0</h2><time>21 października 2026</time></div>
+      <h3>Nowe</h3>
+      <ul>
+        <li><b>Statystyki</b> w dzienniku: tydzień, ten miesiąc, 30 dni, rok albo cała historia - treningi, objętość w tonach, czas i kalorie z porównaniem do poprzedniego okresu</li>
+        <li>Mapa ciepła treningów, objętość tydzień po tygodniu (albo miesiąc po miesiącu), obciążenie wszystkich partii ciała i top 5 ćwiczeń</li>
+      </ul>
+    </article>
+    <article class="rel" id="v0.11.0">
+      <div class="rel-head"><h2>0.11.0</h2><time>21 października 2026</time></div>
+      <h3>Nowe</h3>
+      <ul>
+        <li><b>Piktogramy ruchu</b> - animowana sylwetka dla każdego ćwiczenia z katalogu: w szczegółach ćwiczenia, w bibliotece, przy wyborze ćwiczeń, w kreatorze, w podglądzie treningu i na żywo</li>
+      </ul>
+    </article>
+    <article class="rel" id="v0.10.0">
+      <div class="rel-head"><h2>0.10.0</h2><time>20 października 2026</time></div>
+      <h3>Nowe</h3>
+      <ul>
+        <li>Profil w trzech zakładkach: <b>Profil, Ustawienia, Kopia</b></li>
+        <li><b>Przełączniki funkcji</b> w Ustawieniach - rundy, bloki, zmiany w trakcie, własne ćwiczenia, szczegóły przerw, statystyki, pasek postępu, dźwięki i piktogramy włączasz wtedy, kiedy ich potrzebujesz. Nowa instalacja startuje w prostym trybie, dotychczasowa zostaje bez zmian</li>
+        <li><b>Ósemki z chwytem przy klatce</b> (figure 8 to hold) w katalogu</li>
+      </ul>
+    </article>
+    <article class="rel" id="v0.9.0">
+      <div class="rel-head"><h2>0.9.0</h2><time>20 października 2026</time></div>
+      <h3>Nowe</h3>
+      <ul>
+        <li><b>Zmiana planu z pauzy</b>: dodaj jeszcze jedną serię, dodaj rundę (bloku albo całego treningu), pomiń resztę rundy albo nadchodzący blok</li>
+      </ul>
+      <h3 class="chg">Zmiany</h3>
+      <ul>
+        <li>Jedno wejście w edycję treningu: tap w serię w podglądzie otwiera ją od razu w edytorze</li>
+        <li>Nowy, czytelniejszy ekran pauzy</li>
+      </ul>
+      <h3 class="fix">Poprawki</h3>
+      <ul>
+        <li>Serie na czas nie zapisują się już w dzienniku o sekundę dłuższe</li>
+        <li>Pauza w środku serii na czas nie wydłuża jej czasu w dzienniku</li>
+      </ul>
+    </article>
+    <article class="rel" id="v0.8.0">
+      <div class="rel-head"><h2>0.8.0</h2><time>19 października 2026</time></div>
+      <h3>Nowe</h3>
+      <ul>
+        <li><b>Bloki</b>: zapisany trening jako część innego - rozgrzewka, część główna, schłodzenie, każdy z własnymi rundami i przerwami</li>
+        <li>Blok to niezależna kopia - zmiana oryginału nie psuje treningu, w którym go użyłeś</li>
+        <li>Na żywo cienki pasek bloków, w dzienniku jeden wpis z nazwami bloków</li>
+        <li>„Czas rund” w dzienniku ze składem rundy i rozwijanymi seriami</li>
+      </ul>
+      <h3 class="chg">Zmiany</h3>
+      <ul>
+        <li>Nazwa pliku kopii zapasowej zawiera godzinę</li>
+      </ul>
+    </article>
+    <article class="rel" id="v0.7.1">
+      <div class="rel-head"><h2>0.7.1</h2><time>18 października 2026</time></div>
+      <h3 class="fix">Poprawki</h3>
+      <ul>
+        <li>Przerwa 0 s przy zmianie ćwiczenia nie skraca już następnej serii na czas</li>
+      </ul>
+    </article>
+    <article class="rel" id="v0.7.0">
+      <div class="rel-head"><h2>0.7.0</h2><time>17 października 2026</time></div>
+      <h3>Nowe</h3>
+      <ul>
+        <li>Ekran powitalny przy starcie</li>
+        <li><b>Spacer z kettlem przy barku</b> (rack carry) w katalogu</li>
+      </ul>
+      <h3 class="chg">Zmiany</h3>
+      <ul>
+        <li>Grafitowe tło okna zamiast białych błysków przy starcie</li>
+      </ul>
+    </article>
+    <article class="rel" id="v0.6.0">
+      <div class="rel-head"><h2>0.6.0</h2><time>13 października 2026</time></div>
+      <h3>Nowe</h3>
+      <ul>
+        <li><b>Zmiana ciężaru w trakcie treningu</b> - kettel za lekki? Zmieniasz od tej serii albo do końca treningu</li>
+        <li><b>Martwy robak</b> (dead bug) i martwy robak z kettlem w katalogu</li>
+      </ul>
+    </article>
+    <article class="rel" id="v0.5.3">
+      <div class="rel-head"><h2>0.5.3</h2><time>13 października 2026</time></div>
+      <h3 class="chg">Zmiany</h3>
+      <ul>
+        <li>Pasek rund pokazuje, gdzie jesteś, tak jak klocki serii</li>
+      </ul>
+      <h3 class="fix">Poprawki</h3>
+      <ul>
+        <li>Pauza w trakcie przerwy nie gubi reszty przerwy</li>
+        <li>Poprawiony opis podrzutu kettla do klatki z wyciskaniem</li>
+      </ul>
+    </article>
+    <article class="rel" id="v0.5.2">
+      <div class="rel-head"><h2>0.5.2</h2><time>12 października 2026</time></div>
+      <h3 class="chg">Zmiany</h3>
+      <ul>
+        <li>Edytor serii mieści się na ekranie bez przewijania</li>
+      </ul>
+    </article>
+    <article class="rel" id="v0.5.1">
+      <div class="rel-head"><h2>0.5.1</h2><time>12 października 2026</time></div>
+      <h3>Nowe</h3>
+      <ul>
+        <li><b>Przeciąganie kettla w podporze</b> (plank pull-through) w katalogu</li>
+      </ul>
+      <h3 class="chg">Zmiany</h3>
+      <ul>
+        <li>Nazwy treningów się nie powtarzają, a nazwa nadal nie jest obowiązkowa</li>
+      </ul>
+    </article>
+    <article class="rel" id="v0.5.0">
+      <div class="rel-head"><h2>0.5.0</h2><time>10 października 2026</time></div>
+      <h3>Nowe</h3>
+      <ul>
+        <li>Angielska nazwa ćwiczenia pod polską w trybie live</li>
+        <li><b>Wymach jednorącz</b> (one-arm swing) w katalogu</li>
+      </ul>
+    </article>
+    <article class="rel" id="v0.4.0">
+      <div class="rel-head"><h2>0.4.0</h2><time>8 października 2026</time></div>
+      <h3>Nowe</h3>
+      <ul>
+        <li><b>Rzeczywisty czas ćwiczenia w dzienniku</b> - od pierwszej do ostatniej serii, z porównaniem do poprzedniego razu</li>
+        <li>Czas każdej serii i przerwy oraz <b>czasy rund</b> w treningu obwodowym</li>
+        <li><b>Wyciskanie nad głowę z wybiciem nóg</b> (push press) w katalogu</li>
+      </ul>
+      <h3 class="chg">Zmiany</h3>
+      <ul>
+        <li>Pominięte serie zostają widoczne na pasku postępu</li>
+        <li>Czas treningu rusza ze startem pierwszej serii</li>
+      </ul>
+      <h3 class="fix">Poprawki</h3>
+      <ul>
+        <li>„Pomiń przerwę” przed serią na czas działa poprawnie</li>
+        <li>Skrócone serie na czas nie liczą się jako postęp</li>
+      </ul>
+    </article>
+    <article class="rel" id="v0.3.1">
+      <div class="rel-head"><h2>0.3.1</h2><time>6 października 2026</time></div>
+      <h3 class="fix">Poprawki</h3>
+      <ul>
+        <li>Przyciski plus i minus przy przerwie po serii działają poprawnie i nie reagują na przewijanie</li>
+      </ul>
+    </article>
+    <article class="rel" id="v0.3.0">
+      <div class="rel-head"><h2>0.3.0</h2><time>5 października 2026</time></div>
+      <h3>Nowe</h3>
+      <ul>
+        <li><b>Klonowanie treningu</b> - gotowy trening jako punkt wyjścia do nowego wariantu</li>
+      </ul>
+    </article>
+    <article class="rel" id="v0.2.0">
+      <div class="rel-head"><h2>0.2.0</h2><time>4 października 2026</time></div>
+      <h3>Nowe</h3>
+      <ul>
+        <li><b>Pasek postępu</b> na ekranach treningu: ćwiczenie, seria, runda i czas do końca</li>
+        <li>Dźwiękowe odliczanie 4-3-2-1-0 i dłuższa zapowiedź przed serią na czas</li>
+      </ul>
+      <h3 class="chg">Zmiany</h3>
+      <ul>
+        <li>Przerwę po serii ustawiasz osobno, także 0 s bez ekranu przerwy</li>
+        <li>„Zakończ trening” pyta o potwierdzenie</li>
+        <li>Waga w profilu co 0,1 kg</li>
+      </ul>
+      <h3 class="fix">Poprawki</h3>
+      <ul>
+        <li>Pauza w środku serii na czas nie zeruje licznika</li>
+        <li>Skrócona seria na czas liczy się w dzienniku według faktycznego czasu</li>
+      </ul>
+    </article>
+    <article class="rel" id="v0.1.0">
+      <div class="rel-head"><h2>0.1.0</h2><time>30 września 2026</time></div>
+      <h3>Nowe</h3>
+      <ul>
+        <li>Pierwsza wersja w testach wewnętrznych Google Play: własne treningi, tryb live, dziennik, objętość i kalorie</li>
+        <li>Własne ćwiczenia, angielskie nazwy w katalogu, spacer farmera i wyciskanie jednorącz</li>
+      </ul>
+    </article>
+</main>
+
+<footer class="wrap">
+  <span>© 2026 Strengo</span>
+  <a href="/">strengo.app</a>
+  <a href="mailto:feedback@strengo.app">feedback@strengo.app</a>
+</footer>
+
+</body>
+</html>
